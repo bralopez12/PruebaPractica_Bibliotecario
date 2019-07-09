@@ -32,7 +32,6 @@ namespace BibliotecaDominio
             DateTime? fechaEntrega = ObtenerFechaEntregaPrestamo(isbn,DateTime.Now);
 
             prestamoRepositorio.Agregar(new Prestamo(DateTime.Now, libroRepositorio.ObtenerPorIsbn(isbn), fechaEntrega, nombreUsuario));
-            
         }
 
         public DateTime? ObtenerFechaEntregaPrestamo(string isbn,DateTime fechaPrestamo)
@@ -53,7 +52,6 @@ namespace BibliotecaDominio
             }
 
             return null;
-
         }
 
         private DateTime SumarDiasSinContarDomingos(DateTime fechaASumar, int diasASumar)
