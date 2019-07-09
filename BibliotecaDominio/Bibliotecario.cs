@@ -37,8 +37,6 @@ namespace BibliotecaDominio
 
         public DateTime? ObtenerFechaEntregaPrestamo(string isbn,DateTime fechaPrestamo)
         {
-
-            
             int sumaIsbn = 0;
             int valorCaracter;
             for (int i = 0; i < isbn.Length; i++)
@@ -48,23 +46,33 @@ namespace BibliotecaDominio
                 sumaIsbn += valorCaracter;
             }
 
-            DateTime fechaEntrega = fechaPrestamo;
-
             if (sumaIsbn > 30)
             {
-                for (int i = 0; i < 14; i++)
-                {
-                    if (fechaEntrega.DayOfWeek.Equals(DayOfWeek.Sunday))
-                    {
-                        fechaEntrega = fechaEntrega.AddDays(1);
-                    }
-                    fechaEntrega = fechaEntrega.AddDays(1);
-                }
+                DateTime fechaEntrega = SumarDiasSinContarDomingos(fechaPrestamo,15);
                 return fechaEntrega;
             }
 
             return null;
 
+        }
+
+        private DateTime SumarDiasSinContarDomingos(DateTime fechaASumar, int diasASumar)
+        {
+            int diasAOperar = diasASumar - 1;
+            for (int i = 0; i < diasAOperar; i++)
+            {
+                if (EsDomingo(fechaASumar))
+                {
+                    fechaASumar = fechaASumar.AddDays(1);
+                }
+                fechaASumar = fechaASumar.AddDays(1);
+            }
+            return fechaASumar;
+        }
+
+        private bool EsDomingo(DateTime fecha)
+        {
+            return fecha.DayOfWeek.Equals(DayOfWeek.Sunday);
         }
 
         public bool EsPrestado(string isbn)
